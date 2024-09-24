@@ -93,12 +93,15 @@ class Puzzle:
 
     # Print the solution steps
     def display_solution(self):
-        for step in self.solution:
-            print(step)       
+        print(self.parts)
+        print()
+        for i in range(len(self.solution)):
+            print(f"{i + 1}. {self.solution[i]}")       
 
 class Solver:
     # Inherit the target and parts from a Puzzle object
     def __init__(self, puzzle):
+        self.puzzle = puzzle
         self.target = puzzle.target
         self.parts = puzzle.parts
         self.current_parts = puzzle.parts.copy()
@@ -113,6 +116,8 @@ class Solver:
             # Start over from the original parts
             if command == "reset":
                 self.current_parts = self.parts.copy()
+                print()
+                print(self.current_parts, f"--> {self.target}")
 
             elif command == "remind":
                 print()
@@ -167,6 +172,11 @@ class Solver:
                             print(self.current_parts, f"--> {self.target}")
 
             elif command == "quit":
+                print()
+                try:
+                    self.puzzle.display_solution()
+                except:
+                    print("Generate puzzle first.")
                 return
 
             else:

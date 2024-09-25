@@ -111,7 +111,7 @@ class Solver:
         step_pattern = "[0-9]+ [\+\-\*\/] [0-9]+"
 
         while True:
-            command = input("\nEnter solve command: ").lower()
+            command = input("\nEnter solve command: ").lower().strip()
 
             # Start over from the original parts
             if command == "reset":
@@ -170,6 +170,11 @@ class Solver:
                             self.current_parts = self.parts.copy()
                             print()
                             print(self.current_parts, f"--> {self.target}")
+
+            elif command == "shuffle":
+                random.shuffle(self.current_parts)
+                print()
+                print(self.current_parts, f"--> {self.target}")
 
             elif command == "quit":
                 print()

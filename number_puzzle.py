@@ -2,14 +2,14 @@ import random
 import Splits
 
 while True:
-    command = input("\nEnter command: ").lower()
+    command = input("\nEnter command: ").lower().strip()
 
     if command == "new":
         print()
         try:
-            target = input("Target: ")
+            target = input("Target: ").strip()
             target = int(target)
-            part_count = int(input("Number of parts: "))
+            part_count = int(input("Number of parts: ").strip())
         except:
             if target.lower() == "random":
                 target = random.randint(24, 100)

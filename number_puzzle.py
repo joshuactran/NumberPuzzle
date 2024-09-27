@@ -31,9 +31,12 @@ while True:
             puzzle.display_solution()
         except:
             print("Generate puzzle first.")
+
+    elif command == "help":
+        Splits.display_help()
         
     else:
-        print("\nCommand not recognized.")
+        print("\nCommand not recognized. Type 'help' for a list of commands.")
             
 
 

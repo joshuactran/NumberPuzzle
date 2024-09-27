@@ -31,6 +31,22 @@ def split_div(num):
     rng = random.choice([2, 3, 4])
     return [rng, num * rng]
 
+# Print help instructions
+def display_help():
+    help_text = """*** Normal Commands ***
+- new: Generate a new puzzle. You'll be prompted for a target number, then the number of parts to split that target into. You can also type 'random' as the target.
+- solution: Display a solution to the current puzzle (not necessarily unique).
+
+*** Solving Mode Commands ***
+- <number> <operation> <number>: Perform an arithmetic operation on two numbers. The two numbers must be in the current parts list of the current puzzle.
+- hint: Unlock one of the steps of the solution.
+- reset: Undo all operations and set the parts list to the initial values.
+- remind: Display the current parts list, the target number, and any hints you have already unlocked.
+- shuffle: Randomize the order of the current parts list.
+- quit: Display the full solution to the current puzzle and exit solving mode."""
+    print()
+    print(help_text)
+
 class Puzzle:
     def __init__(self, target, part_count):
         self.target = target
@@ -96,7 +112,7 @@ class Puzzle:
         print(self.parts)
         print()
         for i in range(len(self.solution)):
-            print(f"{i + 1}. {self.solution[i]}")       
+            print(f"{i + 1}. {self.solution[i]}")
 
 class Solver:
     # Inherit the target and parts from a Puzzle object
@@ -105,6 +121,14 @@ class Solver:
         self.target = puzzle.target
         self.parts = puzzle.parts
         self.current_parts = puzzle.parts.copy()
+        self.hints = []
+
+    def display_hints(self):
+        if self.hints:
+            print()
+            print("HINTS:")
+            for i in range(len(self.hints)):
+                print(f"{i + 1}. {self.hints[i]}")
 
     # Enter solving mode
     def solve(self):
@@ -118,10 +142,12 @@ class Solver:
                 self.current_parts = self.parts.copy()
                 print()
                 print(self.current_parts, f"--> {self.target}")
+                self.display_hints()
 
             elif command == "remind":
                 print()
                 print(self.current_parts, f"--> {self.target}")
+                self.display_hints()
 
             # Command is of the form number operator number (1 + 1)
             elif re.fullmatch(step_pattern, command):
@@ -171,10 +197,17 @@ class Solver:
                             print()
                             print(self.current_parts, f"--> {self.target}")
 
+            elif command == "hint":
+                self.hints = self.puzzle.solution[:len(self.hints)+1]
+                self.display_hints()
+
             elif command == "shuffle":
                 random.shuffle(self.current_parts)
                 print()
                 print(self.current_parts, f"--> {self.target}")
+
+            elif command == "help":
+                display_help()
 
             elif command == "quit":
                 print()
@@ -185,4 +218,4 @@ class Solver:
                 return
 
             else:
-                print("\nCommand not recognized")
+                print("\nCommand not recognized. Type 'help' for a list of commands.")
